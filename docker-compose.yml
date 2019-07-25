@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  client:
+    build: ./client
+    restart: always
+    ports:
+      - 8080:8080
+    volumes:
+      - ./client/src:/srv/app/client/src
+    links:
+      - server
+
+  server:
+    build: ./server
+    ports:
+      - 8000:8000
+    volumes:
+      - ./server/src:/srv/app/server/src
+    links:
+      - mongo
+    command: npm start
+
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
